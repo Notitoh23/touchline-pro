@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Touchline Pro - African Football Talent Discovery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e40af, #059669, #f59e0b);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-bar {
+            background: linear-gradient(90deg, #10b981, #059669);
+            transition: width 0.3s ease;
+        }
+        
+        .notification-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+        
+        .chat-bubble-sent {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+        
+        .chat-bubble-received {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .nav-item.active {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .role-badge {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .role-player { background: #dbeafe; color: #1e40af; }
+        .role-coach { background: #dcfce7; color: #059669; }
+        .role-scout { background: #f3e8ff; color: #7c3aed; }
+        .role-organizer { background: #fed7aa; color: #ea580c; }
+        .role-fan { background: #fef3c7; color: #d97706; }
+    </style>
+</head>
+<body class="overflow-hidden">
+    <!-- Main Container -->
+    <div class="h-screen flex flex-col">
+        <!-- Header -->
+        <header class="glass-nav p-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-full flex items-center justify-center">
+                    <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">Touchline Pro</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <i data-lucide="bell" class="w-6 h-6 text-gray-600 cursor-pointer"></i>
+                    <span class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs notification-badge">3</span>
+                </div>
+                <div class="relative">
+                    <i data-lucide="message-circle" class="w-6 h-6 text-gray-600 cursor-pointer"></i>
+                    <span class="absolute -top-2 -right-2 bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs notification-badge">2</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="Profile" class="w-8 h-8 rounded-full">
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 overflow-hidden">
+            <!-- Feed Tab -->
+            <div id="feed-tab" class="tab-content active h-full overflow-y-auto custom-scrollbar p-4 space-y-4">
+                <!-- Create Post -->
+                <div class="glass-card rounded-xl p-4 hover-lift">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="User" class="w-10 h-10 rounded-full">
+                        <input type="text" placeholder="What's happening in African football?" class="flex-1 bg-white/50 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex space-x-4">
+                            <i data-lucide="image" class="w-5 h-5 text-gray-600 cursor-pointer hover:text-blue-500"></i>
+                            <i data-lucide="video" class="w-5 h-5 text-gray-600 cursor-pointer hover:text-blue-500"></i>
+                            <i data-lucide="map-pin" class="w-5 h-5 text-gray-600 cursor-pointer hover:text-blue-500"></i>
+                        </div>
+                        <button class="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition-colors">Post</button>
+                    </div>
+                </div>
+
+                <!-- News Feed Posts -->
+                <div class="space-y-4">
+                    <!-- Post 1 -->
+                    <div class="glass-card rounded-xl p-4 hover-lift">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?w=40&h=40&fit=crop&crop=face" alt="User" class="w-10 h-10 rounded-full">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <h3 class="font-semibold text-white">Kwame Asante</h3>
+                                    <span class="role-badge role-player">Player</span>
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                    <span class="text-sm text-gray-300">2h ago</span>
+                                </div>
+                                <p class="text-gray-200 mb-3">Just scored the winning goal in today's match! 🔥⚽ Dreams do come true with hard work and dedication. #TouchlinePro #AfricanFootball</p>
+                                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&h=300&fit=crop" alt="Goal celebration" class="w-full rounded-lg mb-3">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex space-x-6">
+                                        <button class="flex items-center space-x-2 text-gray-300 hover:text-red-400">
+                                            <i data-lucide="heart" class="w-5 h-5"></i>
+                                            <span>247</span>
+                                        </button>
+                                        <button class="flex items-center space-x-2 text-gray-300 hover:text-blue-400">
+                                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                            <span>42</span>
+                                        </button>
+                                        <button class="flex items-center space-x-2 text-gray-300 hover:text-green-400">
+                                            <i data-lucide="share" class="w-5 h-5"></i>
+                                            <span>18</span>
+                                        </button>
+                                    </div>
+                                    <button class="text-gray-300 hover:text-yellow-400">
+                                        <i data-lucide="bookmark" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post 2 -->
+                    <div class="glass-card rounded-xl p-4 hover-lift">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=40&h=40&fit=crop&crop=face" alt="Coach" class="w-10 h-10 rounded-full">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <h3 class="font-semibold text-white">Coach Amina Diallo</h3>
+                                    <span class="role-badge role-coach">Coach</span>
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                    <span class="text-sm text-gray-300">4h ago</span>
+                                </div>
+                                <p class="text-gray-200 mb-3">Looking for talented midfielders aged 18-22 for our youth academy program. Contact me if you know promising players! 🌟</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex space-x-6">
+                                        <button class="flex items-center space-x-2 text-gray-300 hover:text-red-400">
+                                            <i data-lucide="heart" class="w-5 h-5"></i>
+                                            <span>156</span>
+                                        </button>
+                                        <button class="flex items-center space-x-2 text-gray-300 hover:text-blue-400">
+                                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                            <span>73</span>
+                                        </button>
+                                        <button class="flex items-center space-x-2 text-gray-300 hover:text-green-400">
+                                            <i data-lucide="share" class="w-5 h-5"></i>
+                                            <span>29</span>
+                                        </button>
+                                    </div>
+                                    <button class="text-gray-300 hover:text-yellow-400">
+                                        <i data-lucide="bookmark" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tournament Announcement -->
+                    <div class="glass-card rounded-xl p-4 hover-lift">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+                                <i data-lucide="trophy" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <h3 class="font-semibold text-white">West Africa Cup</h3>
+                                    <span class="role-badge role-organizer">Tournament</span>
+                                    <span class="text-sm text-gray-300">6h ago</span>
+                                </div>
+                                <p class="text-gray-200 mb-3">Registration now open for the 2024 West Africa Youth Cup! 🏆 Ages 16-21. Prize pool: $50,000. Register your team today!</p>
+                                <div class="bg-white/10 rounded-lg p-3 mb-3">
+                                    <div class="grid grid-cols-2 gap-4 text-sm">
+                                        <div>
+                                            <span class="text-gray-400">Date:</span>
+                                            <p class="text-white font-medium">March 15-30, 2024</p>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Location:</span>
+                                            <p class="text-white font-medium">Accra, Ghana</p>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Teams:</span>
+                                            <p class="text-white font-medium">16 teams</p>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Prize:</span>
+                                            <p class="text-white font-medium">$50,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex space-x-6">
+                                        <button class="flex items-center space-x-2 text-gray-300 hover:text-red-400">
+                                            <i data-lucide="heart" class="w-5 h-5"></i>
+                                            <span>892</span>
+                                        </button>
+                                        <button class="flex items-center space-x-2 text-gray-300 hover:text-blue-400">
+                                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                            <span>127</span>
+                                        </button>
+                                        <button class="flex items-center space-x-2 text-gray-300 hover:text-green-400">
+                                            <i data-lucide="share" class="w-5 h-5"></i>
+                                            <span>94</span>
+                                        </button>
+                                    </div>
+                                    <button class="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition-colors">
+                                        Register Team
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-content h-full overflow-y-auto custom-scrollbar p-4">
+                <div class="space-y-4">
+                    <!-- Profile Header -->
+                    <div class="glass-card rounded-xl p-6 hover-lift">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Profile" class="w-20 h-20 rounded-full">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <h2 class="text-2xl font-bold text-white">John Mensah</h2>
+                                    <span class="role-badge role-player">Player</span>
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-gray-400">Age:</span>
+                                        <p class="text-white font-medium">22 years</p>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-400">Nationality:</span>
+                                        <p class="text-white font-medium">🇬🇭 Ghana</p>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-400">Position:</span>
+                                        <p class="text-white font-medium">Midfielder</p>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-400">Current Club:</span>
+                                        <p class="text-white font-medium">Hearts of Oak</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-200 mb-4">Creative midfielder with excellent vision and passing ability. Looking for opportunities to play in European leagues. Dreams of representing Ghana at the World Cup.</p>
+                        <div class="flex space-x-3">
+                            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                <span>Message</span>
+                            </button>
+                            <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center space-x-2">
+                                <i data-lucide="user-plus" class="w-4 h-4"></i>
+                                <span>Follow</span>
+                            </button>
+                            <button class="bg-white/20 text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-colors flex items-center space-x-2">
+                                <i data-lucide="share" class="w-4 h-4"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Skills & Attributes -->
+                    <div class="glass-card rounded-xl p-6 hover-lift">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+                            <i data-lucide="zap" class="w-5 h-5"></i>
+                            <span>Skills & Attributes</span>
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-300">Ball Control</span>
+                                    <span class="text-white font-bold">88%</span>
+                                </div>
+                                <div class="w-full bg-white/20 rounded-full h-3">
+                                    <div class="skill-bar h-3 rounded-full" style="width: 88%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-300">Passing</span>
+                                    <span class="text-white font-bold">91%</span>
+                                </div>
+                                <div class="w-full bg-white/20 rounded-full h-3">
+                                    <div class="skill-bar h-3 rounded-full" style="width: 91%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-300">Vision</span>
+                                    <span class="text-white font-bold">85%</span>
+                                </div>
+                                <div class="w-full bg-white/20 rounded-full h-3">
+                                    <div class="skill-bar h-3 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-300">Shooting</span>
+                                    <span class="text-white font-bold">76%</span>
+                                </div>
+                                <div class="w-full bg-white/20 rounded-full h-3">
+                                    <div class="skill-bar h-3 rounded-full" style="width: 76%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-300">Pace</span>
+                                    <span class="text-white font-bold">73%</span>
+                                </div>
+                                <div class="w-full bg-white/20 rounded-full h-3">
+                                    <div class="skill-bar h-3 rounded-full" style="width: 73%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Career Stats -->
+                    <div class="glass-card rounded-xl p-6 hover-lift">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+                            <i data-lucide="bar-chart" class="w-5 h-5"></i>
+                            <span>Career Statistics</span>
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-white mb-1">47</p>
+                                <p class="text-gray-300">Goals</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-white mb-1">89</p>
+                                <p class="text-gray-300">Assists</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-white mb-1">156</p>
+                                <p class="text-gray-300">Matches</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-white mb-1">8.2</p>
+                                <p class="text-gray-300">Avg Rating</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Highlights -->
+                    <div class="glass-card rounded-xl p-6 hover-lift">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+                            <i data-lucide="play" class="w-5 h-5"></i>
+                            <span>Video Highlights</span>
+                        </h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="relative rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform">
+                                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=225&fit=crop" alt="Highlight" class="w-full h-32 object-cover">
+                                <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                    <i data-lucide="play" class="w-12 h-12 text-white"></i>
+                                </div>
+                                <div class="absolute bottom-2 left-2">
+                                    <p class="text-white text-sm font-medium">Best Goals 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clubs Tab -->
+            <div id="clubs-tab" class="tab-content h-full overflow-y-auto custom-scrollbar p-4">
+                <div class="space-y-4">
+                    <!-- Search Bar -->
+                    <div class="glass-card rounded-xl p-4">
+                        <div class="flex space-x-3">
+                            <div class="flex-1 relative">
+                                <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                                <input type="text" placeholder="Search clubs by name, country, or division..." class="w-full pl-10 pr-4 py-3 bg-white/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                                <i data-lucide="search" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Add New Club Button -->
+                    <button onclick="showAddClubModal()" class="w-full glass-card rounded-xl p-4 hover-lift flex items-center justify-center space-x-3 text-white hover:bg-white/20 transition-colors">
+                        <i data-lucide="plus" class="w-6 h-6"></i>
+                        <span class="font-semibold">Add New Club</span>
+                    </button>
+
+                    <!-- Club Cards -->
+                    <div class="space-y-4">
+                        <!-- Club 1 -->
+                        <div class="glass-card rounded-xl p-4 hover-lift">
+                            <div class="flex items-center space-x-4 mb-3">
+                                <img src="https://images.unsplash.com/photo-1559662780-33e9ba93de9b?w=60&h=60&fit=crop" alt="Club Logo" class="w-15 h-15 rounded-full">
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-white">Hearts of Oak SC</h3>
+                                    <p class="text-gray-300">Ghana Premier League</p>
+                                    <p class="text-gray-400 text-sm">Accra, Ghana • Accra Sports Stadium</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="flex items-center space-x-1 mb-1">
+                                        <i data-lucide="star" class="w-4 h-4 text-yellow-400"></i>
+                                        <span class="text-white font-bold">4.8</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">2.1k followers</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <p class="text-gray-400 text-sm mb-1">Head Coach:</p>
+                                <p class="text-white">Samuel Boadu</p>
+                            </div>
+                            <div class="flex space-x-3">
+                                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex-1">
+                                    <i data-lucide="eye" class="w-4 h-4 inline mr-2"></i>
+                                    View Club
+                                </button>
+                                <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Club 2 -->
+                        <div class="glass-card rounded-xl p-4 hover-lift">
+                            <div class="flex items-center space-x-4 mb-3">
+                                <img src="https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=60&h=60&fit=crop" alt="Club Logo" class="w-15 h-15 rounded-full">
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-white">Kaizer Chiefs</h3>
+                                    <p class="text-gray-300">South African Premier Division</p>
+                                    <p class="text-gray-400 text-sm">Johannesburg, SA • Soccer City</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="flex items-center space-x-1 mb-1">
+                                        <i data-lucide="star" class="w-4 h-4 text-yellow-400"></i>
+                                        <span class="text-white font-bold">4.9</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">5.8k followers</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <p class="text-gray-400 text-sm mb-1">Head Coach:</p>
+                                <p class="text-white">Arthur Zwane</p>
+                            </div>
+                            <div class="flex space-x-3">
+                                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex-1">
+                                    <i data-lucide="eye" class="w-4 h-4 inline mr-2"></i>
+                                    View Club
+                                </button>
+                                <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Club 3 -->
+                        <div class="glass-card rounded-xl p-4 hover-lift">
+                            <div class="flex items-center space-x-4 mb-3">
+                                <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?w=60&h=60&fit=crop" alt="Club Logo" class="w-15 h-15 rounded-full">
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-white">Al Ahly SC</h3>
+                                    <p class="text-gray-300">Egyptian Premier League</p>
+                                    <p class="text-gray-400 text-sm">Cairo, Egypt • Cairo International Stadium</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="flex items-center space-x-1 mb-1">
+                                        <i data-lucide="star" class="w-4 h-4 text-yellow-400"></i>
+                                        <span class="text-white font-bold">4.9</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">12.3k followers</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <p class="text-gray-400 text-sm mb-1">Head Coach:</p>
+                                <p class="text-white">Marcel Koller</p>
+                            </div>
+                            <div class="flex space-x-3">
+                                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex-1">
+                                    <i data-lucide="eye" class="w-4 h-4 inline mr-2"></i>
+                                    View Club
+                                </button>
+                                <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tournaments Tab -->
+            <div id="tournaments-tab" class="tab-content h-full overflow-y-auto custom-scrollbar p-4">
+                <div class="space-y-4">
+                    <!-- Tournament Filters -->
+                    <div class="glass-card rounded-xl p-4">
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <select class="bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>All Regions</option>
+                                <option>West Africa</option>
+                                <option>East Africa</option>
+                                <option>North Africa</option>
+                                <option>Southern Africa</option>
+                            </select>
+                            <select class="bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>All Age Groups</option>
+                                <option>U16</option>
+                                <option>U18</option>
+                                <option>U21</option>
+                                <option>Senior</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="Search tournaments..." class="w-full px-3 py-2 bg-white/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Tournament Cards -->
+                    <div class="space-y-4">
+                        <!-- Tournament 1 -->
+                        <div class="glass-card rounded-xl p-4 hover-lift">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="trophy" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-white mb-2">West Africa Youth Cup 2024</h3>
+                                    <div class="grid grid-cols-2 gap-3 text-sm mb-3">
+                                        <div>
+                                            <span class="text-gray-400">Date:</span>
+                                            <p class="text-white font-medium">Mar 15-30, 2024</p>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Teams:</span>
+                                            <p class="text-white font-medium">16 teams</p>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Countries:</span>
+                                            <p class="text-white font-medium">8 countries</p>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Duration:</span>
+                                            <p class="text-white font-medium">15 days</p>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="text-gray-400 text-sm mb-1">Location:</p>
+                                        <p class="text-white">Accra, Ghana 🇬🇭</p>
+                                    </div>
+                                    <div class="flex space-x-3">
+                                        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                            View Tournament
+                                        </button>
+                                        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                            View Fixtures
+                                        </button>
+                                        <button class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                                            Register Team
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tournament 2 -->
+                        <div class="glass-card rounded-xl p-4 hover-lift">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="award" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-white mb-2">East African Championship</h3>
+                                    <div class="grid grid-cols-2 gap-3 text-sm mb-3">
+                                        <div>
+                                            <span class="text-gray-400">Date:</span>
+                                            <p class="text-white font-medium">Apr 10-25, 2024</p>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Teams:</span>
+                                            <p class="text-white font-medium">12 teams</p>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Countries:</span>
+                                            <p class="text-white font-medium">6 countries</p>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Duration:</span>
+                                            <p class="text-white font-medium">15 days</p>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="text-gray-400 text-sm mb-1">Location:</p>
+                                        <p class="text-white">Nairobi, Kenya 🇰🇪</p>
+                                    </div>
+                                    <div class="flex space-x-3">
+                                        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                            View Tournament
+                                        </button>
+                                        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                            View Fixtures
+                                        </button>
+                                        <button class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                                            Register Team
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tournament Bracket -->
+                        <div class="glass-card rounded-xl p-4 hover-lift">
+                            <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+                                <i data-lucide="git-branch" class="w-5 h-5"></i>
+                                <span>Current Tournament Bracket</span>
+                            </h3>
+                            <div class="space-y-4">
+                                <!-- Final -->
+                                <div class="text-center">
+                                    <h4 class="text-lg font-semibold text-white mb-2">Final</h4>
+                                    <div class="bg-white/10 rounded-lg p-3">
+                                        <p class="text-gray-300">March 30, 2024 • 16:00</p>
+                                        <p class="text-white font-bold">TBD vs TBD</p>
+                                    </div>
+                                </div>
+                                <!-- Semifinals -->
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white mb-2 text-center">Semifinals</h4>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="bg-white/10 rounded-lg p-3 text-center">
+                                            <p class="text-gray-300 text-sm">March 27</p>
+                                            <p class="text-white font-medium">Ghana vs Nigeria</p>
+                                        </div>
+                                        <div class="bg-white/10 rounded-lg p-3 text-center">
+                                            <p class="text-gray-300 text-sm">March 27</p>
+                                            <p class="text-white font-medium">Senegal vs Ivory Coast</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scouting Tab -->
+            <div id="scouting-tab" class="tab-content h-full overflow-y-auto custom-scrollbar p-4">
+                <div class="space-y-4">
+                    <!-- Advanced Search Filters -->
+                    <div class="glass-card rounded-xl p-4">
+                        <h3 class="text-lg font-semibold text-white mb-4">Advanced Player Search</h3>
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <select class="bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>All Positions</option>
+                                <option>Goalkeeper</option>
+                                <option>Defender</option>
+                                <option>Midfielder</option>
+                                <option>Forward</option>
+                            </select>
+                            <select class="bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>All Countries</option>
+                                <option>Ghana</option>
+                                <option>Nigeria</option>
+                                <option>South Africa</option>
+                                <option>Kenya</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <label class="text-gray-300 text-sm mb-1 block">Age Range</label>
+                                <div class="flex space-x-2">
+                                    <input type="number" placeholder="Min" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <input type="number" placeholder="Max" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-gray-300 text-sm mb-1 block">Rating (1-10)</label>
+                                <select class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Any Rating</option>
+                                    <option>9+ (Elite)</option>
+                                    <option>8+ (Excellent)</option>
+                                    <option>7+ (Good)</option>
+                                    <option>6+ (Average)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-gray-300 text-sm mb-1 block">Verification Status</label>
+                            <div class="flex space-x-4">
+                                <label class="flex items-center space-x-2 text-white">
+                                    <input type="checkbox" class="rounded">
+                                    <span>Verified Only</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-white">
+                                    <input type="checkbox" class="rounded">
+                                    <span>Include Unverified</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                            Search Players
+                        </button>
+                    </div>
+
+                    <!-- Search Results -->
+                    <div class="space-y-4">
+                        <!-- Player Result 1 -->
+                        <div class="glass-card rounded-xl p-4 hover-lift">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?w=50&h=50&fit=crop&crop=face" alt="Player" class="w-12 h-12 rounded-full">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-1">
+                                        <h3 class="font-semibold text-white">Kwame Asante</h3>
+                                        <span class="role-badge role-player">Player</span>
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                    </div>
+                                    <p class="text-gray-300 text-sm">Midfielder • 22 years • Ghana 🇬🇭</p>
+                                    <div class="flex items-center space-x-4 mt-1">
+                                        <div class="flex items-center space-x-1">
+                                            <i data-lucide="star" class="w-4 h-4 text-yellow-400"></i>
+                                            <span class="text-white font-bold">8.7</span>
+                                        </div>
+                                        <span class="text-gray-400 text-sm">Hearts of Oak</span>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                                        View Profile
+                                    </button>
+                                    <button class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm">
+                                        Contact
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-gray-200 text-sm mt-3">Creative midfielder with excellent vision and passing ability. Strong technical skills and game intelligence.</p>
+                        </div>
+
+                        <!-- Player Result 2 -->
+                        <div class="glass-card rounded-xl p-4 hover-lift">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face" alt="Player" class="w-12 h-12 rounded-full">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-1">
+                                        <h3 class="font-semibold text-white">Oluwatobi Adeyemi</h3>
+                                        <span class="role-badge role-player">Player</span>
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                    </div>
+                                    <p class="text-gray-300 text-sm">Forward • 19 years • Nigeria 🇳🇬</p>
+                                    <div class="flex items-center space-x-4 mt-1">
+                                        <div class="flex items-center space-x-1">
+                                            <i data-lucide="star" class="w-4 h-4 text-yellow-400"></i>
+                                            <span class="text-white font-bold">9.1</span>
+                                        </div>
+                                        <span class="text-gray-400 text-sm">Kano Pillars</span>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                                        View Profile
+                                    </button>
+                                    <button class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm">
+                                        Contact
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-gray-200 text-sm mt-3">Prolific striker with exceptional finishing ability. Fast, clinical, and great in the air. Future Nigeria international.</p>
+                        </div>
+
+                        <!-- Player Result 3 -->
+                        <div class="glass-card rounded-xl p-4 hover-lift">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=50&h=50&fit=crop&crop=face" alt="Player" class="w-12 h-12 rounded-full">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-1">
+                                        <h3 class="font-semibold text-white">Aisha Nakato</h3>
+                                        <span class="role-badge role-player">Player</span>
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                    </div>
+                                    <p class="text-gray-300 text-sm">Defender • 21 years • Uganda 🇺🇬</p>
+                                    <div class="flex items-center space-x-4 mt-1">
+                                        <div class="flex items-center space-x-1">
+                                            <i data-lucide="star" class="w-4 h-4 text-yellow-400"></i>
+                                            <span class="text-white font-bold">8.4</span>
+                                        </div>
+                                        <span class="text-gray-400 text-sm">KCCA FC Women</span>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                                        View Profile
+                                    </button>
+                                    <button class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm">
+                                        Contact
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-gray-200 text-sm mt-3">Solid center-back with excellent aerial ability and leadership qualities. Captain of Uganda U23 women's team.</p>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-center space-x-2 pt-4">
+                        <button class="glass-card px-3 py-2 rounded-lg hover-lift">
+                            <i data-lucide="chevron-left" class="w-5 h-5 text-white"></i>
+                        </button>
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg">1</button>
+                        <button class="glass-card px-4 py-2 rounded-lg hover-lift text-white">2</button>
+                        <button class="glass-card px-4 py-2 rounded-lg hover-lift text-white">3</button>
+                        <button class="glass-card px-3 py-2 rounded-lg hover-lift">
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-white"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="glass-nav p-2">
+            <div class="flex justify-around">
+                <button onclick="switchTab('feed')" class="nav-item flex flex-col items-center space-y-1 px-4 py-2 rounded-lg transition-colors" id="feed-nav">
+                    <i data-lucide="home" class="w-6 h-6"></i>
+                    <span class="text-xs font-medium">Feed</span>
+                </button>
+                <button onclick="switchTab('profile')" class="nav-item flex flex-col items-center space-y-1 px-4 py-2 rounded-lg transition-colors" id="profile-nav">
+                    <i data-lucide="user" class="w-6 h-6"></i>
+                    <span class="text-xs font-medium">Profile</span>
+                </button>
+                <button onclick="switchTab('clubs')" class="nav-item flex flex-col items-center space-y-1 px-4 py-2 rounded-lg transition-colors" id="clubs-nav">
+                    <i data-lucide="shield" class="w-6 h-6"></i>
+                    <span class="text-xs font-medium">Clubs</span>
+                </button>
+                <button onclick="switchTab('tournaments')" class="nav-item flex flex-col items-center space-y-1 px-4 py-2 rounded-lg transition-colors" id="tournaments-nav">
+                    <i data-lucide="trophy" class="w-6 h-6"></i>
+                    <span class="text-xs font-medium">Tournaments</span>
+                </button>
+                <button onclick="switchTab('scouting')" class="nav-item flex flex-col items-center space-y-1 px-4 py-2 rounded-lg transition-colors" id="scouting-nav">
+                    <i data-lucide="search" class="w-6 h-6"></i>
+                    <span class="text-xs font-medium">Scouting</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Add Club Modal -->
+    <div id="addClubModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card rounded-xl max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-white">Add New Club</h2>
+                <button onclick="hideAddClubModal()" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form class="space-y-4">
+                <div>
+                    <label class="text-gray-300 text-sm mb-1 block">Club Name</label>
+                    <input type="text" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter club name">
+                </div>
+                <div>
+                    <label class="text-gray-300 text-sm mb-1 block">League/Division</label>
+                    <input type="text" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Ghana Premier League">
+                </div>
+                <div>
+                    <label class="text-gray-300 text-sm mb-1 block">Location</label>
+                    <input type="text" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="City, Country">
+                </div>
+                <div>
+                    <label class="text-gray-300 text-sm mb-1 block">Stadium</label>
+                    <input type="text" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Stadium name">
+                </div>
+                <div>
+                    <label class="text-gray-300 text-sm mb-1 block">Official Documents</label>
+                    <input type="file" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" multiple>
+                    <p class="text-gray-400 text-xs mt-1">Upload club registration, license, and letterhead</p>
+                </div>
+                <div class="flex space-x-3 pt-4">
+                    <button type="button" onclick="hideAddClubModal()" class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                        Submit for Review
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Verification Modal -->
+    <div id="verificationModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card rounded-xl max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-white">Apply for Verification</h2>
+                <button onclick="hideVerificationModal()" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="mb-4">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-blue-600"></i>
+                        <h3 class="font-semibold text-blue-800">Verification Statistics</h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div>
+                            <p class="text-blue-600 font-bold">1,247</p>
+                            <p class="text-gray-600">Verified Clubs</p>
+                        </div>
+                        <div>
+                            <p class="text-blue-600 font-bold">94.7%</p>
+                            <p class="text-gray-600">Success Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form class="space-y-4">
+                <div>
+                    <label class="text-gray-300 text-sm mb-1 block">Application Type</label>
+                    <select id="verificationType" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="toggleVerificationFields()">
+                        <option value="">Select type</option>
+                        <option value="club">Club Administrator</option>
+                        <option value="coach">Coach</option>
+                    </select>
+                </div>
+                
+                <div id="clubFields" class="hidden space-y-4">
+                    <div>
+                        <label class="text-gray-300 text-sm mb-1 block">Club Registration Document</label>
+                        <input type="file" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="text-gray-300 text-sm mb-1 block">Official Letterhead</label>
+                        <input type="file" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                
+                <div id="coachFields" class="hidden space-y-4">
+                    <div>
+                        <label class="text-gray-300 text-sm mb-1 block">Coaching License</label>
+                        <input type="file" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="text-gray-300 text-sm mb-1 block">Employment Certificate</label>
+                        <input type="file" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="text-gray-300 text-sm mb-1 block">Government ID</label>
+                    <input type="file" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div class="flex space-x-3 pt-4">
+                    <button type="button" onclick="hideVerificationModal()" class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors">
+                        Submit Application
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card rounded-xl max-w-md w-full p-6 max-h-[80vh] overflow-y-auto custom-scrollbar">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-white">Settings</h2>
+                <button onclick="hideSettingsModal()" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <!-- Account Settings -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Account Settings</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-gray-300 text-sm mb-1 block">Email</label>
+                            <input type="email" value="john@example.com" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="text-gray-300 text-sm mb-1 block">Phone</label>
+                            <input type="tel" value="+233 123 456 789" class="w-full bg-white/50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                            Change Password
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Privacy Settings -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Privacy Settings</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-300">Profile Visibility</span>
+                            <select class="bg-white/50 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Public</option>
+                                <option>Verified Only</option>
+                                <option>Private</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-300">Show Contact Info</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Notifications</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-300">Push Notifications</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-300">Email Notifications</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-300">Tournament Updates</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Security</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-300">Two-Factor Authentication</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <button class="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition-colors text-sm">
+                            View Active Sessions
+                        </button>
+                        <button onclick="showVerificationModal()" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors text-sm">
+                            Apply for Verification
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="space-y-3 pt-4 border-t border-white/20">
+                    <button class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                        Save Changes
+                    </button>
+                    <button class="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition-colors">
+                        Log Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card rounded-xl max-w-md w-full h-[600px] flex flex-col">
+            <!-- Chat Header -->
+            <div class="flex items-center justify-between p-4 border-b border-white/20">
+                <div class="flex items-center space-x-3">
+                    <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?w=40&h=40&fit=crop&crop=face" alt="Contact" class="w-10 h-10 rounded-full">
+                    <div>
+                        <h3 class="font-semibold text-white">Kwame Asante</h3>
+                        <div class="flex items-center space-x-1">
+                            <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                            <span class="text-xs text-gray-300">Online</span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="hideChatModal()" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div class="flex-1 p-4 overflow-y-auto custom-scrollbar space-y-3">
+                <div class="flex justify-start">
+                    <div class="chat-bubble-received rounded-lg px-4 py-2 max-w-xs">
+                        <p class="text-gray-800">Hey! I saw your profile and I'm interested in discussing potential opportunities.</p>
+                        <span class="text-xs text-gray-500">2:30 PM</span>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="chat-bubble-sent text-white rounded-lg px-4 py-2 max-w-xs">
+                        <p>Hi Kwame! Thanks for reaching out. I'd love to hear more about what you have in mind.</p>
+                        <span class="text-xs text-blue-200">2:32 PM</span>
+                    </div>
+                </div>
+                <div class="flex justify-start">
+                    <div class="chat-bubble-received rounded-lg px-4 py-2 max-w-xs">
+                        <p class="text-gray-800">We're looking for talented midfielders for our youth academy program. Your stats are impressive!</p>
+                        <span class="text-xs text-gray-500">2:35 PM</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="p-4 border-t border-white/20">
+                <div class="flex space-x-3">
+                    <input type="text" placeholder="Type a message..." class="flex-1 bg-white/50 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to selected nav item
+            document.getElementById(tabName + '-nav').classList.add('active');
+        }
+
+        // Modal functions
+        function showAddClubModal() {
+            document.getElementById('addClubModal').classList.remove('hidden');
+        }
+
+        function hideAddClubModal() {
+            document.getElementById('addClubModal').classList.add('hidden');
+        }
+
+        function showVerificationModal() {
+            document.getElementById('verificationModal').classList.remove('hidden');
+            hideSettingsModal();
+        }
+
+        function hideVerificationModal() {
+            document.getElementById('verificationModal').classList.add('hidden');
+        }
+
+        function toggleVerificationFields() {
+            const verificationType = document.getElementById('verificationType').value;
+            const clubFields = document.getElementById('clubFields');
+            const coachFields = document.getElementById('coachFields');
+
+            clubFields.classList.add('hidden');
+            coachFields.classList.add('hidden');
+
+            if (verificationType === 'club') {
+                clubFields.classList.remove('hidden');
+            } else if (verificationType === 'coach') {
+                coachFields.classList.remove('hidden');
+            }
+        }
+
+        function showSettingsModal() {
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        function hideSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        function showChatModal() {
+            document.getElementById('chatModal').classList.remove('hidden');
+        }
+
+        function hideChatModal() {
+            document.getElementById('chatModal').classList.add('hidden');
+        }
+
+        // Add click handlers for profile image to show settings
+        document.querySelector('header img').addEventListener('click', showSettingsModal);
+
+        // Add click handlers for message icons
+        document.querySelectorAll('[data-lucide="message-circle"]').forEach(icon => {
+            if (icon.closest('header')) {
+                icon.addEventListener('click', showChatModal);
+            }
+        });
+
+        // Initialize the app with feed tab active
+        document.addEventListener('DOMContentLoaded', function() {
+            switchTab('feed');
+            lucide.createIcons();
+        });
+
+        // Handle form submissions
+        document.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success message for demo
+            const modal = e.target.closest('.fixed');
+            if (modal) {
+                modal.classList.add('hidden');
+                // In a real app, you would send the data to a server
+                alert('Submitted successfully! You will receive a confirmation email shortly.');
+            }
+        });
+
+        // Add interaction handlers for posts
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('button')) {
+                const button = e.target.closest('button');
+                
+                // Handle like buttons
+                if (button.querySelector('[data-lucide="heart"]')) {
+                    const heartIcon = button.querySelector('[data-lucide="heart"]');
+                    const countSpan = button.querySelector('span');
+                    let count = parseInt(countSpan.textContent);
+                    
+                    // Toggle like state
+                    if (heartIcon.classList.contains('text-red-400')) {
+                        heartIcon.classList.remove('text-red-400');
+                        heartIcon.classList.add('text-gray-300');
+                        count--;
+                    } else {
+                        heartIcon.classList.remove('text-gray-300');
+                        heartIcon.classList.add('text-red-400');
+                        count++;
+                    }
+                    countSpan.textContent = count;
+                }
+                
+                // Handle bookmark buttons
+                if (button.querySelector('[data-lucide="bookmark"]')) {
+                    const bookmarkIcon = button.querySelector('[data-lucide="bookmark"]');
+                    
+                    // Toggle bookmark state
+                    if (bookmarkIcon.classList.contains('text-yellow-400')) {
+                        bookmarkIcon.classList.remove('text-yellow-400');
+                        bookmarkIcon.classList.add('text-gray-300');
+                    } else {
+                        bookmarkIcon.classList.remove('text-gray-300');
+                        bookmarkIcon.classList.add('text-yellow-400');
+                    }
+                }
+            }
+        });
+
+        // Add smooth scrolling behavior
+        document.querySelectorAll('.custom-scrollbar').forEach(element => {
+            element.style.scrollBehavior = 'smooth';
+        });
+
+        // Add notification click handlers
+        document.querySelectorAll('.notification-badge').forEach(badge => {
+            badge.addEventListener('click', function() {
+                // In a real app, this would show notification details
+                alert('Notifications feature coming soon!');
+            });
+        });
+
+        // Re-initialize Lucide icons after any dynamic content changes
+        setInterval(() => {
+            lucide.createIcons();
+        }, 1000);
+    </script>
+</body>
+</html>
